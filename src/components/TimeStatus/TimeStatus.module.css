@@ -2,17 +2,14 @@
   border: 0.1rem solid black;
   padding: 1rem;
   align-items: center;
-  width: 100%;
   text-align: center;
+  width: 100%;
+  justify-content: center;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
   background-color: #b9cedf;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
   text-transform: uppercase;
-}
-.ul {
-  display: flex;
-  flex-direction: column;
-}
-.li {
-  padding: 0.5rem;
 }

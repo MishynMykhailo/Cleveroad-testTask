@@ -1,35 +1,59 @@
 import s from "./App.module.css";
-import { getIssLocationNow } from "../../services/ApiData";
+import { getIssLocationNow, getPeopleAstros } from "../../services/ApiData";
 import LocationStatus from "../LocationStatus/LocationStatus";
 import { useEffect, useState } from "react";
+import TimeStatus from "../TimeStatus/TimeStatus";
+import PeopleList from "../PeopleList/PeopleList";
+import ContainerGoogleMap from "../ContainerGoogleMap/ContainerGoogleMap";
 
 function App() {
   const [issPosition, setIssPosition] = useState(null);
   const [timestamp, setTimestamp] = useState(null);
+  const [astrosPeople, setAstrosPeople] = useState(null);
   useEffect(() => {
     getIssLocationNow().then(({ data }) => {
       setIssPosition(data.iss_position);
       setTimestamp(data.timestamp);
     });
+    getPeopleAstros().then(({ data }) =>
+      setAstrosPeople(data.people.filter((arr) => arr.craft === "ISS"))
+    );
+    console.log("FIRST");
   }, []);
 
-  const date1 = new Date(timestamp) / 1000.0;
-  const date2 = new Date().getTime();
-  console.log(timestamp);
-  console.log("date1", date1);
-  console.log("date2", date2);
-  Math.round(new Date().getTime());
-  // console.log("result", result);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      getIssLocationNow().then(({ data }) => {
+        setIssPosition(data.iss_position);
+        setTimestamp(data.timestamp);
+      });
+      getPeopleAstros().then(({ data }) =>
+        setAstrosPeople(data.people.filter((arr) => arr.craft === "ISS"))
+      );
+    }, 5000);
 
-  function utcformat(d) {
-    const di = new Date(d);
-    const tail = "GMT";
-    const result = di.getUTCFullYear();
-    // console.log("RESULT", result);
-    return result;
-  }
-  utcformat(timestamp);
-  return <LocationStatus issPosition={issPosition} />;
+    return () => clearInterval(intervalId);
+  }, [issPosition, timestamp, astrosPeople]);
+
+  return (
+    <>
+      <div className={s.container}>
+        <div className={s.center}>
+          {issPosition && <LocationStatus issPosition={issPosition} />}
+          {timestamp && <TimeStatus timestamp={timestamp} />}
+        </div>
+
+        <div className={s.center}>
+          {issPosition && (
+            <div className={s.map}>
+              <ContainerGoogleMap issPosition={issPosition} />
+            </div>
+          )}
+          <PeopleList astrosPeople={astrosPeople} />
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default App;
