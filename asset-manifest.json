@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/Cleveroad-testTask/static/css/main.eeb83710.css",
+    "main.js": "/Cleveroad-testTask/static/js/main.7db96699.js",
+    "index.html": "/Cleveroad-testTask/index.html",
+    "static/media/user.svg": "/Cleveroad-testTask/static/media/user.f6fd8092dd26669e5897e23d69c8e36c.svg",
+    "main.eeb83710.css.map": "/Cleveroad-testTask/static/css/main.eeb83710.css.map",
+    "main.7db96699.js.map": "/Cleveroad-testTask/static/js/main.7db96699.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.eeb83710.css",
+    "static/js/main.7db96699.js"
+  ]
+}
